@@ -1,1 +1,93 @@
-Hi!!
+CREATE TABLE employee (
+emp_id INTEGER PRIMARY KEY,          -- Unique identifier for each employee
+ emp_name VARCHAR(50),               -- Name of the employee
+job_title VARCHAR(50),              -- Job title of the employee
+ hire_date DATE,                     -- Date when the employee was hired
+salary DECIMAL(10,2)                -- Salary of the employee
+);
+
+INSERT INTO employee (emp_id, emp_name, job_title, hire_date, salary) VALUES
+(1, 'John Doe', 'Software Engineer', '2020-01-15', 75000.00),
+ (2, 'Jane Smith', 'Project Manager', '2019-11-23', 85000.00),
+(3, 'Alice Johnson', 'Data Scientist', '2021-03-30', 95000.00),
+(4, 'Bob Brown', 'UX Designer', '2020-08-10', 68000.00),
+(5, 'Charlie Davis', 'Database Administrator', '2018-07-22', 72000.00);
+
+
+1.	To return the maximum salary 
+
+SOL:-
+
+
+ SELECT MAX(salary) AS max_salary FROM employee;
+DELIMITER //
+
+CREATE PROCEDURE GetMaxSalar(OUT max_salary DECIMAL(10,2))
+BEGIN
+    SELECT MAX(salary) INTO max_salary
+    FROM employee;
+ END //
+
+DELIMITER ;
+
+CALL GetMaxSalar(@max_salary);
+SELECT @max_salary AS max_salary;
+
+
+3.	Total salary paid for all the employees in a department
+
+SOL:-
+
+CREATE TABLE department (
+--     dept_id INT PRIMARY KEY,
+--     dept_name VARCHAR(50)
+-- );
+
+-- Create employee table
+-- CREATE TABLE employ(
+--     emp_id INT PRIMARY KEY,
+--     emp_name VARCHAR(50),
+--     salary DECIMAL(10,2),
+--     dept_id INT,
+--     FOREIGN KEY (dept_id) REFERENCES department(dept_id)
+-- );
+
+-- Insert data into department table
+-- INSERT INTO department (dept_id, dept_name) VALUES
+-- (1, 'Human Resources'),
+-- (2, 'Finance'),
+-- (3, 'Engineering'),
+-- (4, 'Marketing'),
+-- (5, 'Sales');
+
+-- Insert data into employee table
+-- INSERT INTO employ (emp_id, emp_name, salary, dept_id) VALUES
+-- (101, 'Alice Johnson', 75000.00, 3),
+-- (102, 'Bob Smith', 80000.00, 2),
+-- (103, 'Charlie Brown', 90000.00, 3),
+-- (104, 'Diana Greene', 65000.00, 4),
+-- (105, 'Eva Davis', 70000.00, 5),
+-- (106, 'Frank White', 85000.00, 2),
+-- (107, 'Grace Lee', 72000.00, 1),
+-- (108, 'Hannah Miller', 78000.00, 5),
+-- (109, 'Ian Wilson', 83000.00, 4),
+-- (110, 'Jack Anderson', 67000.00, 3);
+
+-- Create stored procedure to get total salary by department
+-- DELIMITER //
+
+-- CREATE PROCEDURE GetTotalSalaryByDep(IN dept_id INT, OUT total_salary DECIMAL(10,2))
+-- BEGIN
+--     SELECT SUM(salary) INTO total_salary
+--     FROM employ
+--     WHERE dept_id = dept_id;
+-- END //
+
+-- DELIMITER ;
+CALL GetTotalSalaryByDep(2, @total_salary);
+SELECT @total_salary AS total_salary;
+
+
+4.	Display the names of employees in every department in alphabetical order
+
+SOL:-
